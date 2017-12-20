@@ -1,0 +1,14 @@
+language: node_js
+node_js:
+- 6.10.3
+sudo: false
+cache:
+  directories:
+  - node_modules
+install:
+- npm install
+script:
+- npm test
+env:
+  global:
+    secure: kfTs4Cln5a7Hu2A7vH849KURSuVu0g0illo5fyRKbt2yVGYCbRm+QcDsS0NwOiFMw8AMQXCy0GOg9onbal9HfzrXdtmgGrtghZxRx/q4tDqYC0bMg17li+EYUwMNk0kCfJd7PGxbYHtzrj506iEYA1TzKAsgBlJ/jSMk07mRkw7Bu7XpTe94uV2vAKmCFqAo2hEcb/I7x9Pqn7OOiUWXwMzWuMC/q4YSoo6T6blYtNSRtz9x4t0rmm2+DdIxYArbFathdKjw5Zi/RB69RDO3fUhIxbOIegrCGjAUBS3i7K99J6jlVgGth2jTzkzikSY8lobJBMgPkK+dwRReqs4cQXdn90bNH6FCiAkPAMofjke/IwgZHYxnPuSEXQ3UR8vzD3oPRWNdzdy6CANBrN/ozdneoaM5ZDP0pDE7RzJNv6cTLfpsWqncNxRPq5TWbrHsQcdyUJvtV0+7GdaRax8gm+5egXtMrm6sjxsomC2GgGt/6KS3rbyUjNeDa+RN7iodCTBLtcwJZDpv/ey2Rj+MwT6VgQZ1eIpAUnP0fnUbQa1gf/0erS4clMPTelrg+mogwAri+STr3gNdhELPN32apbFeqbwriERzMx8kpkxTUHtR/PyZ44MXd7yBj/H1G43de9NHn4A7LWs4LsRXd7U5kYait/HqmzZNLklsV2oo60E=

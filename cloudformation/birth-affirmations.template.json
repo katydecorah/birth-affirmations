@@ -1,0 +1,151 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Parameters": {
+    "GitSha": {
+      "Type": "String",
+      "Description": "GitSha to deploy"
+    },
+    "SlackChannel": {
+      "Type": "String",
+      "Description": "Slack channel for posting the message.",
+      "Default": "#general"
+    },
+    "SlackHookURL": {
+      "Type": "String",
+      "Description": "Webhook URL to which to post the messages",
+      "Default": ""
+    },
+    "GithubAccessToken": {
+      "Type": "String",
+      "Description": "Your Github access token to authenticate the request",
+      "Default": ""
+    }
+  },
+  "Resources": {
+    "BirthAffirmationsRole": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "Path": "/birth-affirmations/",
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com"
+              },
+              "Action": "sts:AssumeRole"
+            }
+          ]
+        },
+        "Policies": [
+          {
+            "PolicyName": "CloudWatch",
+            "PolicyDocument": {
+              "Statement": [
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "logs:*"
+                  ],
+                  "Resource": "arn:aws:logs:*:*:*"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "BirthAffirmationsFunction": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Fn::Join": [
+              "",
+              [
+                "kdecorah-",
+                {
+                  "Ref": "AWS::Region"
+                }
+              ]
+            ]
+          },
+          "S3Key": {
+            "Fn::Join": [
+              "",
+              [
+                "birth-affirmations/",
+                {
+                  "Ref": "GitSha"
+                },
+                ".zip"
+              ]
+            ]
+          }
+        },
+        "Role": {
+          "Fn::GetAtt": [
+            "BirthAffirmationsRole",
+            "Arn"
+          ]
+        },
+        "Environment": {
+          "Variables": {
+            "SlackChannel": {
+              "Ref": "SlackChannel"
+            },
+            "SlackHookURL": {
+              "Ref": "SlackHookURL"
+            },
+            "GithubAccessToken": {
+              "Ref": "GithubAccessToken"
+            }
+          }
+        },
+        "Description": "affirmations",
+        "Handler": "index.affirmations",
+        "MemorySize": 128,
+        "Runtime": "nodejs6.10",
+        "Timeout": 300
+      }
+    },
+    "TriggerBirthAffirmationsFunctionEveryDay": {
+      "Type": "AWS::Events::Rule",
+      "Properties": {
+        "Description": "Every day at 10 am EST",
+        "ScheduleExpression": "cron(0 15 ? * * *)",
+        "State": "ENABLED",
+        "Targets": [
+          {
+            "Arn": {
+              "Fn::GetAtt": [
+                "BirthAffirmationsFunction",
+                "Arn"
+              ]
+            },
+            "Id": "TriggerBirthAffirmationsFunctionEveryDay"
+          }
+        ]
+      }
+    },
+    "TriggerBirthAffirmationsFunctionEveryDayPermission": {
+      "Type": "AWS::Lambda::Permission",
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "BirthAffirmationsFunction",
+            "Arn"
+          ]
+        },
+        "Principal": "events.amazonaws.com",
+        "SourceArn": {
+          "Fn::GetAtt": [
+            "TriggerBirthAffirmationsFunctionEveryDay",
+            "Arn"
+          ]
+        }
+      }
+    }
+  }
+}
