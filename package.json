@@ -16,7 +16,7 @@
     "yamljs": "^0.3.0"
   },
   "devDependencies": {
-    "babel-eslint": "^8.0.3",
+    "babel-eslint": "^8.2.6",
     "eslint": "^4.13.1",
     "husky": "^0.14.3",
     "lint-staged": "^5.0.0",
