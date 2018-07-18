@@ -20,7 +20,7 @@
     "eslint": "^4.13.1",
     "husky": "^0.14.3",
     "lint-staged": "^5.0.0",
-    "prettier": "^1.9.2",
+    "prettier": "^1.13.7",
     "tape": "^4.8.0"
   },
   "lint-staged": {
