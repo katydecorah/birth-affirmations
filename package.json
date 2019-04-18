@@ -16,12 +16,12 @@
     "yamljs": "^0.3.0"
   },
   "devDependencies": {
-    "babel-eslint": "^8.0.3",
-    "eslint": "^4.13.1",
+    "babel-eslint": "^8.2.6",
+    "eslint": "^4.19.1",
     "husky": "^0.14.3",
     "lint-staged": "^5.0.0",
-    "prettier": "^1.9.2",
-    "tape": "^4.8.0"
+    "prettier": "^1.17.0",
+    "tape": "^4.10.1"
   },
   "lint-staged": {
     "**/*.js": [
@@ -32,5 +32,13 @@
   },
   "bin": {
     "birth-affirmation": "./bin/affirmations.js"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/katydecorah/birth-affirmations.git"
+  },
+  "bugs": {
+    "url": "https://github.com/katydecorah/birth-affirmations/issues"
+  },
+  "homepage": "https://github.com/katydecorah/birth-affirmations#readme"
 }
